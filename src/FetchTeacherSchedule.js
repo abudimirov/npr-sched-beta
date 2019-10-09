@@ -11,6 +11,7 @@ export default class FetchTeacherSchedule extends React.Component {
         days: null
     };
 
+
     async componentDidMount() {
 
         const url = `https://ruz.spbstu.ru/api/v1/ruz/teachers/${teacher_id}/scheduler`;
@@ -18,8 +19,11 @@ export default class FetchTeacherSchedule extends React.Component {
         const data = await response.json();
         this.setState({ schedule: data.days, lessons: data.days.lessons, person: data.teacher, week: data.week, days: data.days, loading: false });
         console.log(this.state.schedule);
-        console.log(this.state.lessons);
+        console.log(this.state.schedule[0].lessons);
+
     }
+
+
 
     render() {
         if (this.state.loading) {
@@ -43,6 +47,12 @@ export default class FetchTeacherSchedule extends React.Component {
                         <div className="card-body">
                             <h5 className="card-title">{schedule.weekday}</h5>
                             <h5 className="card-title">{schedule.date}</h5>
+                            <h5>{this.state.schedule[0].lessons[0].subject}</h5>
+                            <h5>{this.state.schedule[0].lessons[0].typeObj.name}</h5>
+                            <h5>{this.state.schedule[0].lessons[0].additional_info}</h5>
+                            <h5>{this.state.schedule[0].lessons[0].time_start} - {this.state.schedule[0].lessons[0].time_end}</h5>
+                            <h5>{this.state.schedule[0].lessons[0].auditories[0].building.name}, ауд. {this.state.schedule[0].lessons[0].auditories[0].name}</h5>
+
 
 
                         </div>
