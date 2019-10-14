@@ -26,8 +26,7 @@ export default class FetchTeacherSchedule extends React.Component {
             days: data.days,
             loading: false
         });
-        console.log(this.state.schedule);
-        console.log(this.state.lessons);
+
     }
 
     render() {
@@ -41,27 +40,46 @@ export default class FetchTeacherSchedule extends React.Component {
         return (
             <div>
                 <h3>{this.state.person.full_name}</h3>
-                <div>Расписание с {this.state.week.date_start} по {this.state.week.date_end}</div>
-                <div>{this.state.person.id}</div>
-                <div>{this.state.person.full_name}</div>
                 <div>{this.state.person.chair}</div>
+                <h4>Расписание с {this.state.week.date_start} по {this.state.week.date_end}</h4>
                 {this.state.schedule.map((schedule, i) => (
                     <div key={i} className="week__card">
                         <div className="card-body">
-                            <h5  className="card-title">{schedule.weekday}</h5>
-                            <h5 className="card-title">{schedule.date}</h5>
-                            <h5>{this.state.schedule[0].lessons[0].auditories[0].building.name}, ауд. {this.state.schedule[0].lessons[0].auditories[0].name}</h5>
-
-
-                            {this.state.schedule[i].lessons.map(function(lessons, i) {
+                            <div className="flex__group">
+                                <div  className="card-title">{schedule.weekday}</div>
+                                <div className="card-title">{schedule.date}</div>
+                            </div>
+                            {schedule.lessons.map(function(lesson, i) {
                                 return (
-                                    <span key={i} className="lesson__group">
+                                    <span key={i} className="flex__group">
                                         <ul className="lessons__list">
                                             <li className="lesson__item">
-                                                <h5>{lessons.time_start} - {lessons.time_end}</h5>
-                                                <p>{lessons.subject}</p>
-                                                <p>{lessons.typeObj.name}</p>
-                                                <p>{lessons.additional_info}</p>
+                                                <h5>{lesson.time_start} - {lesson.time_end}</h5>
+                                                <p>{lesson.subject}</p>
+                                                <p>{lesson.typeObj.name}</p>
+                                                {lesson.groups.map(function(group, i) {
+                                                    return (
+                                                        <span key={i}>
+                                                            <ul className="groups__list">
+                                                                <li className="group__item">
+                                                                    <p>{group.name}</p>
+                                                                </li>
+                                                            </ul>
+                                                        </span>
+                                                    )
+                                                })}
+                                                {lesson.auditories.map(function(auditorie, i) {
+                                                    return (
+                                                        <span key={i}>
+                                                            <ul className="auditories__list">
+                                                                <li className="auditories__item">
+                                                                    <p>{auditorie.building.name}, {auditorie.name} каб.</p>
+                                                                </li>
+                                                            </ul>
+                                                        </span>
+                                                    )
+                                                })}
+
                                             </li>
                                         </ul>
                                     </span>
@@ -70,9 +88,12 @@ export default class FetchTeacherSchedule extends React.Component {
 
 
 
+
                         </div>
                     </div>
                 ))}
+
+
 
 
 
