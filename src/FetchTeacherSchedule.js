@@ -1,17 +1,14 @@
 import React from "react";
 
-
 const teacher_id = "2559";
+
 
 export default class FetchTeacherSchedule extends React.Component {
     state = {
         loading: true,
-        person: null,
-        lessons: null,
-        week: null,
-        days: null,
-        groups: null
+        person: null
     };
+
 
 
     async componentDidMount() {
@@ -37,6 +34,11 @@ export default class FetchTeacherSchedule extends React.Component {
         if (!this.state.person) {
             return <div>Нет данных</div>;
         }
+
+        if (!this.state.schedule.length) {
+            return <div>На эту неделю занятия не поставлены</div>;
+        }
+
         return (
             <div>
                 <h3>{this.state.person.full_name}</h3>
@@ -49,6 +51,7 @@ export default class FetchTeacherSchedule extends React.Component {
                                 <div  className="card-title">{schedule.weekday}</div>
                                 <div className="card-title">{schedule.date}</div>
                             </div>
+
                             {schedule.lessons.map(function(lesson, i) {
                                 return (
                                     <span key={i} className="flex__group">
@@ -73,7 +76,7 @@ export default class FetchTeacherSchedule extends React.Component {
                                                         <span key={i}>
                                                             <ul className="auditories__list">
                                                                 <li className="auditories__item">
-                                                                    <p>{auditorie.building.name}, {auditorie.name} каб.</p>
+                                                                    <p>{auditorie.building.name}, каб. {auditorie.name}</p>
                                                                 </li>
                                                             </ul>
                                                         </span>
