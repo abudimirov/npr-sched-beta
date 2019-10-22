@@ -1,9 +1,5 @@
-.App {
+.header {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
 }
 
 .App-header {
@@ -22,12 +18,35 @@
 }
 
 
-.card-body {
+.flex {
   display: flex;
 }
 
-.flex__group {
+.day__body__flex {
   margin: 5px;
   padding: 5px;
-  flex: 0 1 200px;
+}
+
+.flex__item__date {
+  flex: 0 1 100px;
+}
+
+.flex__item__sched {
+  flex: 1 1;
+  border: 2px solid #eee;
+  border-radius: 10px;
+}
+
+.flex__item__sched__lesson {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+}
+
+.lesson__time {
+  flex: 0 2 150px;
+  padding: 20px;
+}
+
+.lesson__item {
+  flex: 1 1 200px;
 }

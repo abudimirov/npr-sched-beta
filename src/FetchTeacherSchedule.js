@@ -5,14 +5,6 @@ require('moment/locale/ru');
 const teacher_id = "2559";
 moment.locale('ru');
 
-const weekdayTypes = {
-    '1': "Понедельник",
-    '2': "Вторник",
-    '3': "Среда",
-    '4': "Четверг",
-    '5': "Пятница",
-    '6': "Суббота"
-}
 
 
 
@@ -38,8 +30,6 @@ export default class FetchTeacherSchedule extends React.Component {
         });
         console.log(this.state.schedule);
         console.log(this.state.week);
-        const date = moment(this.state.schedule.date, "YYYY-MM-DD").format("DD MMM, ddd");
-
     }
 
     render() {
@@ -53,73 +43,70 @@ export default class FetchTeacherSchedule extends React.Component {
 
         if (!this.state.schedule.length) {
             return <div>
-                <h3>{this.state.person.full_name}</h3>
-                <h4>Расписание с {this.state.week.date_start} по {this.state.week.date_end} ({this.state.week.is_odd})</h4>
+                <div className="header">
+                    <h3>{this.state.person.full_name}</h3>
+                    <h4>Расписание с
+                        {moment(this.state.week.date_start, "YYYY-MM-DD").format("DD MMMM")}
+                        по
+                        {this.state.week.date_end}
+                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})</h4>
+                </div>
                 <h3>На эту неделю занятия не поставлены</h3>
             </div>;
         }
 
         return (
             <div>
-                <h3>{this.state.person.full_name}</h3>
-                <h4>Расписание с {this.state.week.date_start} по {this.state.week.date_end} ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})</h4>
+                <div className="header">
+                    <h3>{this.state.person.full_name}</h3>
+                    <h4>Расписание с&nbsp;
+                        {moment(this.state.week.date_start, "YYYY-MM-DD").format("DD MMMM")}
+                        &nbsp;по&nbsp;
+                        {moment(this.state.week.date_end, "YYYY-MM-DD").format("DD MMMM")}
+                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})</h4>
+                </div>
                 {this.state.schedule.map((schedule, i) => (
-                    <div key={i} className="week__card">
-                        <div className="card-body">
-                            <div className="flex__group">
+                    <div key={i} className="week__body">
+                        <div className="day__body flex">
+                            <div className="day__body__flex flex__item__date">
                                 <div className="card-title">{moment(schedule.date, "YYYY-MM-DD").format("DD MMM, ddd")}</div>
                             </div>
-
-                            {schedule.lessons.map(function(lesson, i) {
-                                return (
-                                    <span key={i} className="flex__group">
-                                        <ul className="lessons__list">
-                                            <li className="lesson__item">
-                                                <h5>{lesson.time_start} - {lesson.time_end}</h5>
-                                                <p>{lesson.subject}</p>
-                                                <p>{lesson.typeObj.name}</p>
-                                                {lesson.groups.map(function(group, i) {
-                                                    return (
-                                                        <span key={i}>
-                                                            <ul className="groups__list">
-                                                                <li className="group__item">
-                                                                    <p>{group.name}</p>
-                                                                </li>
-                                                            </ul>
-                                                        </span>
-                                                    )
-                                                })}
-                                                {lesson.auditories.map(function(auditorie, i) {
-                                                    return (
-                                                        <span key={i}>
-                                                            <ul className="auditories__list">
-                                                                <li className="auditories__item">
-                                                                    <p>{auditorie.building.name}, каб. {auditorie.name}</p>
-                                                                </li>
-                                                            </ul>
-                                                        </span>
-                                                    )
-                                                })}
-
-                                            </li>
-                                        </ul>
-                                    </span>
-                                )
-                            })}
-
-
-
-
+                            <ul className="day__body__flex flex__item__sched">
+                                {schedule.lessons.map(function(lesson, i) {
+                                    return (
+                                        <li key={i} className="flex flex__item__sched__lesson">
+                                            <div className="lesson__time">
+                                                {lesson.time_start} - {lesson.time_end}
+                                            </div>
+                                            <div className="lesson__item">
+                                                <h4>{lesson.subject}</h4>
+                                                <span>{lesson.typeObj.name}</span>
+                                                <ul className="sched__lesson__groups">
+                                                    {lesson.groups.map(function(group, i) {
+                                                        return (
+                                                            <li key={i} className="groups__item">
+                                                                {group.name}
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                                <ul className="sched__lesson__auditories">
+                                                    {lesson.auditories.map(function(auditorie, i) {
+                                                        return (
+                                                            <li key={i}>
+                                                                {auditorie.building.name}, каб. {auditorie.name}
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
                         </div>
                     </div>
                 ))}
-
-
-
-
-
-
-
             </div>
         );
     }
