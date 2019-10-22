@@ -1,11 +1,10 @@
 import React from "react";
 var moment = require('moment');
 require('moment/locale/ru');
-
-const teacher_id = "2559";
 moment.locale('ru');
 
 
+const teacher_id = "2559";
 
 
 
@@ -33,6 +32,10 @@ export default class FetchTeacherSchedule extends React.Component {
     }
 
     render() {
+        let ofset = i;
+
+        let link = this.props.link;
+
         if (this.state.loading) {
             return <div>Загрузка...</div>;
         }
@@ -43,28 +46,30 @@ export default class FetchTeacherSchedule extends React.Component {
 
         if (!this.state.schedule.length) {
             return <div>
-                <div className="header">
+                <header>
                     <h3>{this.state.person.full_name}</h3>
-                    <h4>Расписание с
+                    <h4>Расписание с&nbsp;
                         {moment(this.state.week.date_start, "YYYY-MM-DD").format("DD MMMM")}
-                        по
-                        {this.state.week.date_end}
-                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})</h4>
-                </div>
+                        &nbsp;по&nbsp;
+                        {moment(this.state.week.date_end, "YYYY-MM-DD").format("DD MMMM")}&nbsp;
+                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})
+                    </h4>
+                </header>
                 <h3>На эту неделю занятия не поставлены</h3>
             </div>;
         }
 
         return (
             <div>
-                <div className="header">
+                <header>
                     <h3>{this.state.person.full_name}</h3>
                     <h4>Расписание с&nbsp;
                         {moment(this.state.week.date_start, "YYYY-MM-DD").format("DD MMMM")}
                         &nbsp;по&nbsp;
-                        {moment(this.state.week.date_end, "YYYY-MM-DD").format("DD MMMM")}
-                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})</h4>
-                </div>
+                        {moment(this.state.week.date_end, "YYYY-MM-DD").format("DD MMMM")}&nbsp;
+                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})
+                    </h4>
+                </header>
                 {this.state.schedule.map((schedule, i) => (
                     <div key={i} className="week__body">
                         <div className="day__body flex">
