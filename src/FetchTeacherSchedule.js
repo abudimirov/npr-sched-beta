@@ -32,7 +32,6 @@ export default class FetchTeacherSchedule extends React.Component {
     }
 
     render() {
-        let ofset = i;
 
         let link = this.props.link;
 
