@@ -1,6 +1,20 @@
 import React from "react";
+var moment = require('moment');
+require('moment/locale/ru');
 
 const teacher_id = "2559";
+moment.locale('ru');
+
+const weekdayTypes = {
+    '1': "Понедельник",
+    '2': "Вторник",
+    '3': "Среда",
+    '4': "Четверг",
+    '5': "Пятница",
+    '6': "Суббота"
+}
+
+
 
 
 export default class FetchTeacherSchedule extends React.Component {
@@ -8,7 +22,6 @@ export default class FetchTeacherSchedule extends React.Component {
         loading: true,
         person: null
     };
-
 
 
     async componentDidMount() {
@@ -23,6 +36,9 @@ export default class FetchTeacherSchedule extends React.Component {
             days: data.days,
             loading: false
         });
+        console.log(this.state.schedule);
+        console.log(this.state.week);
+        const date = moment(this.state.schedule.date, "YYYY-MM-DD").format("DD MMM, ddd");
 
     }
 
@@ -36,20 +52,22 @@ export default class FetchTeacherSchedule extends React.Component {
         }
 
         if (!this.state.schedule.length) {
-            return <div>На эту неделю занятия не поставлены</div>;
+            return <div>
+                <h3>{this.state.person.full_name}</h3>
+                <h4>Расписание с {this.state.week.date_start} по {this.state.week.date_end} ({this.state.week.is_odd})</h4>
+                <h3>На эту неделю занятия не поставлены</h3>
+            </div>;
         }
 
         return (
             <div>
                 <h3>{this.state.person.full_name}</h3>
-                <div>{this.state.person.chair}</div>
-                <h4>Расписание с {this.state.week.date_start} по {this.state.week.date_end}</h4>
+                <h4>Расписание с {this.state.week.date_start} по {this.state.week.date_end} ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})</h4>
                 {this.state.schedule.map((schedule, i) => (
                     <div key={i} className="week__card">
                         <div className="card-body">
                             <div className="flex__group">
-                                <div  className="card-title">{schedule.weekday}</div>
-                                <div className="card-title">{schedule.date}</div>
+                                <div className="card-title">{moment(schedule.date, "YYYY-MM-DD").format("DD MMM, ddd")}</div>
                             </div>
 
                             {schedule.lessons.map(function(lesson, i) {
