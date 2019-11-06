@@ -1,10 +1,9 @@
 import React from "react";
+import Header from "./Header.jsx";
+import { teacher_id } from "../App";
 var moment = require('moment');
 require('moment/locale/ru');
 moment.locale('ru');
-
-
-const teacher_id = "2559";
 
 
 
@@ -27,48 +26,31 @@ export default class FetchTeacherSchedule extends React.Component {
             days: data.days,
             loading: false
         });
-        console.log(this.state.schedule);
-        console.log(this.state.week);
     }
 
     render() {
 
-        let link = this.props.link;
-
         if (this.state.loading) {
-            return <div>Загрузка...</div>;
+            return  <div>
+                <Header/>
+            </div>;
         }
 
         if (!this.state.person) {
-            return <div>Нет данных</div>;
+            return  <div>
+                <Header/>
+            </div>;
         }
 
         if (!this.state.schedule.length) {
             return <div>
-                <header>
-                    <h3>{this.state.person.full_name}</h3>
-                    <h4>Расписание с&nbsp;
-                        {moment(this.state.week.date_start, "YYYY-MM-DD").format("DD MMMM")}
-                        &nbsp;по&nbsp;
-                        {moment(this.state.week.date_end, "YYYY-MM-DD").format("DD MMMM")}&nbsp;
-                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})
-                    </h4>
-                </header>
-                <h3>На эту неделю занятия не поставлены</h3>
+                <Header/>
             </div>;
         }
 
         return (
             <div>
-                <header>
-                    <h3>{this.state.person.full_name}</h3>
-                    <h4>Расписание с&nbsp;
-                        {moment(this.state.week.date_start, "YYYY-MM-DD").format("DD MMMM")}
-                        &nbsp;по&nbsp;
-                        {moment(this.state.week.date_end, "YYYY-MM-DD").format("DD MMMM")}&nbsp;
-                        ({this.state.week.is_odd ? 'нечётная неделя' : 'чётная неделя'})
-                    </h4>
-                </header>
+                <Header/>
                 {this.state.schedule.map((schedule, i) => (
                     <div key={i} className="week__body">
                         <div className="day__body flex">
