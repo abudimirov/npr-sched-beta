@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {Header} from "./components/Header";
 import {Week} from "./components/Week";
+import {Pager} from "./components/Pager";
 
 const teacher_id = "2559";
 
@@ -10,7 +11,6 @@ export default class App extends React.Component {
         loading: true,
         person: null
     };
-
 
     async componentDidMount() {
 
@@ -41,6 +41,7 @@ export default class App extends React.Component {
                         date_start={this.state.week.date_start}
                         date_end={this.state.week.date_end}
                         is_odd={this.state.week.is_odd}/>
+                        
                 {this.state.schedule.length ? <Week schedule={this.state.schedule}/> : <h3>На эту неделю занятия не поставлены</h3>}
             </div>
         );

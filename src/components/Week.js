@@ -1,4 +1,5 @@
 import React from "react";
+import {Groups} from "./Groups";
 var moment = require('moment');
 require('moment/locale/ru');
 moment.locale('ru');
@@ -24,16 +25,8 @@ export function Week(props) {
                                             <span>{lesson.typeObj.name}</span>
                                             <div className="sched__lesson__groups">
                                                 {lesson.additional_info ? lesson.additional_info  :
-                                                    <div>
-                                                        Группы:
-                                                        {lesson.groups.map(function(group, i) {
-                                                            return (
-                                                                <div key={i} className="groups__item">
-                                                                    {group.name}
-                                                                </div>
-                                                            )
-                                                        })}
-                                                    </div>}
+                                                    <Groups groups={lesson.groups}/>
+                                                    }
 
                                             </div>
                                             <div className="sched__lesson__auditories">
