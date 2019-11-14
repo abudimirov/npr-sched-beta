@@ -3,6 +3,7 @@ import './App.css';
 import {Header} from "./components/Header";
 import {Week} from "./components/Week";
 import {Pager} from "./components/Pager";
+import UseAnimations from "react-useanimations";
 
 const teacher_id = "2559";
 
@@ -28,11 +29,15 @@ export default class App extends React.Component {
     render() {
 
         if (this.state.loading) {
-            return  <h3>Загрузка...</h3>;
+            return    <div class="flex center">
+                <UseAnimations animationKey="loading" size={56} style={{ padding: 100 }} />
+            </div>;
         }
 
         if (!this.state.person) {
-            return  <h3>Нет данных</h3>;
+            return <div className="flex center">
+                <h3>Нет данных</h3>
+            </div>;
         }
 
         return (
